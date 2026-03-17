@@ -1,11 +1,16 @@
-import React, {useState}from "react";
+import React, {useEffect, useState}from "react";
 import TareaFormulario from "./TareaFormulario";
 import Tarea from './Tarea';
 import '../hojas-de-estilo/ListaDeTareas.css';
 
 function ListaDeTareas() {
 
-    const [tareas, setTareas] = useState([]);
+    const [tareas, setTareas] = useState(JSON.parse(localStorage.getItem('tareas' || [])));
+
+    useEffect(() => {
+        localStorage.setItem("tareas", JSON.stringify(tareas))
+    },[tareas])
+            
     
     const agregarTarea = tarea => {
         if (tarea.texto.trim()) {
@@ -14,6 +19,7 @@ function ListaDeTareas() {
             setTareas(tareasActualizadas);
         }
     }
+            
 
     const eliminarTarea = id => {
         const tareasActualizadas = tareas.filter(tarea => tarea.id !== id);
